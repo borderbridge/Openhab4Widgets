@@ -1,0 +1,238 @@
+uid: HeatingPower
+tags:
+  - experimental
+  - Heating
+props:
+  parameters:
+    - label: Settings Padge
+      name: settingPadge
+      required: true
+      type: TEXT
+    - context: item
+      label: Temperatur im Puffer Oben Warmwasser
+      name: upperBufferTemp
+      required: true
+      type: TEXT
+    - context: item
+      label: Temperatur im Puffer oberes Drittel (FBH)
+      name: uppertwothrirdBufferTemp
+      required: true
+      type: TEXT
+    - context: item
+      label: Temperatur im Puffer Unten
+      name: lowerBufferTemp
+      required: true
+      type: TEXT
+    - context: item
+      label: Ladenzustand Puffer
+      name: bufferSoC
+      required: true
+      type: TEXT
+  parameterGroups: []
+timestamp: Nov 5, 2023, 11:16:58 AM
+component: f7-card
+config:
+  class:
+    - {}
+    - display-flex
+    - flex-direction-column
+    - align-items-center
+  style:
+    background-image: "=themeOptions.dark === 'dark' ? 'url(' + props.imagedark + ')' : 'url(' + props.image + ')'"
+    background-position: center
+    background-size: cover
+    border-radius: var(--f7-card-expandable-border-radius)
+    box-shadow: 5px 5px 10px 1px rgba(0,0,0,0.1)
+    class:
+      - padding: 0px
+    height: 280px
+    margin-left: 5px
+    margin-right: 5px
+    max-width: 380px
+    min-width: 350px
+    noShadow: false
+slots:
+  content:
+    - component: f7-block
+      config:
+        style:
+          --f7-theme-color: var(--f7-text-color)
+      slots:
+        default:
+          - component: oh-icon
+            config:
+              height: 60px
+              icon: heating
+              style:
+                left: -15px
+                position: absolute
+                top: -30px
+          - component: oh-button
+            config:
+              text: DETAILS
+              outline: true
+              action: navigate
+              actionPage: =props.settingPadge
+              visible: "=props.settingPadge ? true: false"
+              style:
+                width: 80px
+                right: -10px
+                position: absolute
+                top: 200px
+          - component: oh-icon
+            config:
+              height: 140px
+              icon: puffer_100
+              visible: =(items[props.bufferSoC].state >=92)
+              style:
+                position: absolute
+                top: 35px
+                left: 100px
+          - component: oh-icon
+            config:
+              height: 140px
+              icon: puffer_75
+              visible: =((items[props.bufferSoC].state <92) && (items[props.bufferSoC].state >= 75))
+              style:
+                position: absolute
+                top: 35px
+                left: 100px
+          - component: oh-icon
+            config:
+              height: 140px
+              icon: puffer_50
+              visible: =((items[props.bufferSoC].state <75) && (items[props.bufferSoC].state >= 50))
+              style:
+                position: absolute
+                top: 35px
+                left: 100px
+          - component: oh-icon
+            config:
+              height: 140px
+              icon: puffer_30
+              visible: =((items[props.bufferSoC].state <50) && (items[props.bufferSoC].state >= 30))
+              style:
+                position: absolute
+                top: 35px
+                left: 100px
+          - component: oh-icon
+            config:
+              height: 140px
+              icon: puffer_leer
+              visible: =((items[props.bufferSoC].state <30) && (items[props.bufferSoC].state >= 0))
+              style:
+                position: absolute
+                top: 35px
+                left: 100px
+          - component: oh-icon
+            config:
+              height: 45px
+              icon: bluecircle
+              style:
+                left: 210px
+                position: absolute
+                top: 72px
+              visible: =((items[props.netzbezug].state < -8)||items[props.netzbezug].state > 8)
+          - component: oh-icon
+            config:
+              height: 45px
+              icon: faucet
+              style:
+                left: 295px
+                position: absolute
+                top: -18px
+                            
+          - component: f7-row
+            config:
+              position: absolute
+              preserveAspectRatio: xMidYMid slice
+              style:
+                height: 280
+                width: auto
+              tag: svg
+              top: 340px
+            slots:
+              default:
+                - component: f7-row
+                  config:
+                    d: M145  61 h060 v-60 h80
+                    fill: none
+                    id: path5SolarToInv
+                    stroke: rgba(64, 61, 58, 0.8)
+                    stroke-width: 2
+                    tag: path
+                    vector-effect: non-scaling-stroke
+                    visible: =true
+                    xlink:href: "#path1HotWater"
+                - component: f7-row
+                  config:
+                    d: M137 130 v30 h-132 v30
+                    fill: none
+                    id: path2InvToHouse
+                    stroke: rgba(65, 188, 65, 0.8)
+                    stroke-width: 2
+                    tag: path
+                    vector-effect: non-scaling-stroke
+                    visible: =(items[props.hausverbrauch].state > 0)
+                - component: f7-row
+                  config:
+                    fill: rgba(65, 188, 65, 0.8)
+                    r: 6
+                    strokeWidth: 10
+                    tag: circle
+                    vectorEffect: non-scaling-stroke
+                    visible: =(items[props.hausverbrauch].state > 0)
+                  slots:
+                    default:
+                      - component: f7-row
+                        config:
+                          calcMode: linear
+                          dur: 4s
+                          repeatCount: indefinite
+                          tag: animateMotion
+                        slots:
+                          default:
+                            - component: f7-row
+                              config:
+                                tag: mpath
+                                xlink:href: "#path2InvToHouse"
+          - component: Label
+            config:
+              style:
+                font-size: 14px
+                font-weight: 500
+                left: 110px
+                position: absolute
+                top: 100px
+              text: =(Number.parseFloat(items[props.bufferSoC].state.split(" ")[0]) * 100 / 100).toFixed(1) + ' %'
+              visible: true
+          - component: Label
+            config:
+              style:
+                font-size: 12px
+                font-weight: 600
+                left: 175px
+                position: absolute
+                top: 45px
+              text: =(Number.parseFloat(items[props.upperBufferTemp].state.split(" ")[0]) * 100 / 100).toFixed(1) + '°C'
+              visible: true
+          - component: Label
+            config:
+              style:
+                font-size: 12px
+                font-weight: 600
+                left: 175px
+                position: absolute
+                top: 70px
+              text: =(Number.parseFloat(items[props.uppertwothrirdBufferTemp].state.split(" ")[0]) * 100 / 100).toFixed(1) + '°C'
+              visible: true
+          - component: Label
+            config:
+              style:
+                font-size: 12px
+                font-weight: 600
+                left: 175px
+                position: absolute
+                top: 140px
+              text: =(Number.parseFloat(items[props.lowerBufferTemp].state.split(" ")[0]) * 100 / 100).toFixed(1) + '°C'
+              visible: true
