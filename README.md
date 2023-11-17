@@ -1,6 +1,6 @@
 # Openhab4Widgets
 
-Just some for the openhab UI. 
+Just some Widgets for the openhab UI. 
 some i found and edited 
 others i created myself
 
