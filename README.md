@@ -21,7 +21,9 @@ The "forecastValue" in the upper right corner comes form the solarforcastbinding
 ## Widget for Heating energy flow
 Is still a work in progress 
 
-##Lightgroupwidget
+## Lightgroupwidget
 
+![Alt text](/LightGroupWidget/preview.gif?raw=true "Optional Title")
+(only the upper part of the gif)
 Designed to show a Group of Lights. eg. a Room and give the oppertunity to switch the light or dimm the light in one row. 
 Pretty crappy code but it works ;)
