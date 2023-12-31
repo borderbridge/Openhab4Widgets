@@ -1,0 +1,111 @@
+uid: chartwidget
+tags:
+  - chart
+  - example
+  - oneBoolean
+  - oneLine
+props:
+  parameters:
+    - description: Title
+      label: title
+      name: title
+      required: false
+      type: TEXT
+    - description: Lable Line 1
+      label: Label Line 1
+      name: labelLine1
+      required: false
+      type: TEXT
+
+    - context: item
+      description: Line Item 1
+      label: Line Item 1
+      name: lineItem1
+      required: false
+      type: TEXT
+    - description: Label Bool 1
+      label: Label Bool 1
+      name: labelBool1
+      required: false
+      type: TEXT
+      
+    - context: item
+      description: Boolean Item 1
+      label: Boolean Item 1
+      name: booleanItem1
+      required: false
+      type: TEXT      
+  parameterGroups: []
+timestamp: Jul 30, 2023, 7:05:58 PM
+component: f7-card
+config:
+  style:
+    max-width: 100%
+    min-width: 100%
+  title:  =props.title
+slots:
+  default:
+    - component: oh-chart
+      config:
+        options:
+          color:
+            - rgba(255,0,0,1)
+            - rgba(0,255,255,1)
+            - rgba(0,255,0,1)
+        period: D
+      slots:
+        grid:
+          - component: oh-chart-page
+            config:
+              containLabel: true
+              height: 85%
+              includeLabels: true
+              left: 20px
+              position: relative
+              show: false
+              top: 16px
+              width: 95%
+        legend:
+          - component: oh-chart-legend
+            config:
+              bottom: 0px
+              show: true
+              type: scroll
+        series:
+          - component: oh-time-series
+            config:
+              areaStyle: {}
+              color: lightblue
+              gridIndex: 0
+              name: =props.labelBool1
+              type: line
+              xAxisIndex: 0
+              yAxisIndex: 0
+            slots:
+              markArea:
+                - component: oh-mark-area
+                  config:
+                    item: =props.booleanItem1
+                    name: =props.labelBool1
+          - component: oh-time-series
+            config:
+              areaStyle:
+                opacity: "=props.area1filled ? 0.2 : 0.0"
+              item: =props.lineItem1
+              name: =props.labelLine1
+              service: rrd4j
+              smooth: false
+              type: line
+              xAxisIndex: 0
+              yAxisIndex: 0
+        xAxis:
+          - component: oh-time-axis
+            config:
+              gridIndex: 0
+        yAxis:
+          - component: oh-value-axis
+            config:
+              gridIndex: 0
+          - component: oh-value-axis
+            config:
+              gridIndex: 0
