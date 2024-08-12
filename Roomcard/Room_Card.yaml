@@ -1,0 +1,308 @@
+uid: Room_Card
+tags:
+  - inUse
+  - raum
+props:
+  parameters:
+    - label: Header
+      name: text_header
+      required: false
+      type: TEXT
+    - description: icon name without ".png", located in static/icons/ folder
+      label: Icon
+      name: iconimage
+      required: false
+      type: TEXT
+    - description: image for display
+      label: Background Image
+      name: image
+      required: true
+      type: TEXT
+    - description: Item zu Bild auswählen
+      label: Item with imagepath
+      name: imagedark
+      required: false
+      type: TEXT
+    - description: HEX or rgba
+      label: Backgroundcolor
+      name: bgcolor
+      required: false
+      type: TEXT
+    - context: item
+      description: select item for state light1
+      label: Item
+      name: status_light1
+      required: false
+      type: TEXT
+    - context: item
+      description: select item for state light2
+      label: Item
+      name: status_light2
+      required: false
+      type: TEXT
+    - context: item
+      description: select item for state light3
+      label: Item
+      name: status_light3
+      required: false
+      type: TEXT
+    - context: item
+      description: select item for temperature
+      label: Item
+      name: temp
+      required: false
+      type: TEXT
+    - context: item
+      description: select item for set temperature
+      label: Item
+      name: settemp
+      required: false
+      type: TEXT
+    - context: item
+      description: select item for humidity
+      label: Item
+      name: humidity
+      required: false
+      type: TEXT
+    - context: item
+      description: select item for state blind1
+      label: Item
+      name: blind1
+      required: false
+      type: TEXT
+    - context: item
+      description: select item for state blind slats1
+      label: Item
+      name: blind_slats1
+      required: false
+      type: TEXT
+    - context: item
+      description: select item for state blind2
+      label: Item
+      name: blind2
+      required: false
+      type: TEXT
+    - context: item
+      description: select item for state blind slats2
+      label: Item
+      name: blind_slats2
+      required: false
+      type: TEXT
+    - context: item
+      description: select item for state blind3
+      label: Item
+      name: blind3
+      required: false
+      type: TEXT
+    - context: item
+      description: select item for state blind slats3
+      label: Item
+      name: blind_slats3
+      required: false
+      type: TEXT
+    - context: item
+      description: select item for door state(s)
+      label: Item
+      name: door_state
+      required: false
+      type: TEXT
+    - context: item
+      description: select item for Power On/Off
+      label: Item
+      name: PowerON
+      required: false
+      type: TEXT
+    - context: item
+      description: select item Wattage
+      label: Item
+      name: PowerWatt
+      required: false
+      type: TEXT
+    - description: Page which will be opened as popup
+      label: Page ID
+      name: page
+      required: false
+    - context: item
+      description: select item for presence
+      label: Item
+      name: presence_state
+      required: false
+      type: TEXT
+timestamp: Nov 11, 2023, 5:39:29 PM
+component: f7-card
+config:
+  style:
+    background-color: "=props.bgcolor ? props.bgcolor : ''"
+    background-image: "=themeOptions.dark === 'dark' ? 'url(' + props.imagedark +
+      ')' : 'url(' + props.image + ')'"
+    background-position: center
+    background-size: cover
+    border-radius: var(--f7-card-expandable-border-radius)
+    box-shadow: 5px 5px 10px 1px rgba(0,0,0,0.1)
+    class:
+      - padding: 0px
+    height: 100px
+    margin-left: 5px
+    margin-right: 5px
+    noShadow: false
+slots:
+  content:
+    - component: f7-block
+      config:
+        style:
+          left: 30px
+          position: absolute
+          top: -5px
+      slots:
+        default:
+          - component: Label
+            config:
+              style:
+                font-size: 17px
+                font-weight: 600
+                margin-left: 0px
+                margin-top: 0px
+              text: "=props.text_header ? props.text_header : 'Set Props'"
+    - component: f7-block
+      config:
+        style:
+          bottom: -20px
+          left: 5px
+          position: absolute
+      slots:
+        default:
+          - component: oh-link
+            config:
+              iconBadge: "=(items[props.status_light1].state > 0) ?
+                items[props.status_light1].state : ''"
+              iconColor: "=themeOptions.dark === 'dark' ? 'white' : 'orange'"
+              iconF7: "=(items[props.status_light1].state === 'ON' ) ? 'lightbulb_fill' :
+                (items[props.status_light1].state === 'OFF' ) ? 'lightbulb' :
+                (items[props.status_light1].state > 0 ) ? 'lightbulb_fill' :
+                'lightbulb' "
+              iconSize: 20
+              visible: =(items[props.status_light1].state > 0)
+          - component: oh-link
+            config:
+              iconBadge: "=(items[props.status_light2].state > 0) ?
+                items[props.status_light2].state : ''"
+              iconColor: "=themeOptions.dark === 'dark' ? 'white' : 'orange'"
+              iconF7: "=(items[props.status_light2].state === 'ON' ) ? 'lightbulb_fill' :
+                (items[props.status_light2].state === 'OFF' ) ? 'lightbulb' :
+                (items[props.status_light2].state > 0 ) ? 'lightbulb_fill' :
+                'lightbulb' "
+              iconSize: 20
+              style:
+                left: 10px
+              visible: =(items[props.status_light2].state > 0)
+          - component: oh-link
+            config:
+              iconBadge: "=(items[props.status_light3].state > 0) ?
+                items[props.status_light3].state : ''"
+              iconColor: "=themeOptions.dark === 'dark' ? 'white' : 'orange'"
+              iconF7: "=(items[props.status_light3].state === 'ON' ) ? 'lightbulb_fill' :
+                (items[props.status_light3].state === 'OFF' ) ? 'lightbulb' :
+                (items[props.status_light3].state > 0 ) ? 'lightbulb_fill' :
+                'lightbulb' "
+              iconSize: 20
+              style:
+                left: 10px
+              visible: =(items[props.status_light3].state > 0)
+          - component: oh-link
+            config:
+              iconBadge: "=(props.blind_slats1) ? '' : (items[props.blind1].state > 0 ) ?
+                items[props.blind1].state : ''"
+              iconColor: "=(props.blind_slats1) ? 'gray' : (themeOptions.dark === 'dark') ?
+                'white' : 'black'"
+              iconF7: arrow_down_square
+              iconSize: 22
+              style:
+                left: 35px
+              visible: =(items[props.blind1].state > 0)
+          - component: oh-link
+            config:
+              iconBadge: "=(props.blind_slats2) ? '' : (items[props.blind2].state > 0 ) ?
+                items[props.blind2].state : ''"
+              iconColor: "=(props.blind_slats2) ? 'gray' : (themeOptions.dark === 'dark') ?
+                'white' : 'black'"
+              iconF7: "=items[props.blind2].state > 50 ? 'app_fill' : 'app'"
+              iconSize: 22
+              style:
+                left: 25px
+              visible: =(items[props.blind2].state > 0)
+    - component: f7-block
+      config:
+        style:
+          bottom: -50px
+          left: 5px
+          position: absolute
+      slots:
+        default:
+          - component: f7-chip
+            config:
+              iconColor: "=themeOptions.dark === 'dark' ? 'white' : 'black'"
+              iconF7: thermometer
+              iconSize: 18
+              style:
+                --f7-chip-bg-color: rgba(255, 255, 255, 0)
+              text: "=(items[props.temp].displayState  ? items[props.temp].displayState :
+                items[props.temp].state) +  (props.settemp ? ' (' +
+                items[props.settemp].state + ')' : '')"
+              visible: "=props.temp ? true : false"
+          - component: f7-chip
+            config:
+              iconColor: "=themeOptions.dark === 'dark' ? 'white' : 'black'"
+              iconF7: drop
+              iconSize: 18
+              style:
+                --f7-chip-bg-color: rgba(255, 255, 255, 0)
+              text: =items[props.humidity].state + '%'
+              visible: "=props.humidity ? true : false"
+          - component: oh-link
+            config:
+              iconBadge: "=(items[props.status_light1].state > 0) ?
+                items[props.status_light1].state : ''"
+              iconColor: "=themeOptions.dark === 'dark' ? 'white' : 'orange'"
+              iconF7: lightbulb
+              iconSize: 20
+              visible: =(items[props.presence_state].state > 0)
+          - component: oh-icon
+            config:
+              icon: "=items[props.presence_state].state === 'OFF' ? 'motion' : 'motion'"
+              style:
+                bottom: -6px
+                height: 20px
+                position: relative
+              visible: =items[props.presence_state].state === 'ON'
+          - component: oh-link
+            config:
+              iconBadge: "=(items[props.PowerWatt].state > 99) ?
+                Math.round(items[props.PowerWatt].state) + ' W':
+                Math.round(items[props.PowerWatt].state*10)/10 + ' W'"
+              iconColor: "=themeOptions.dark === 'dark' ? 'white' : 'black'"
+              iconF7: power
+              style:
+                bottom: -6px
+                height: 20px
+                position: relative
+              visible: =(items[props.PowerWatt].state > 0)
+    - component: oh-image
+      config:
+        style:
+          height: 25px
+          left: 10px
+          opacity: 0.7
+          position: absolute
+          top: 10px
+        url: ='/static/icons/' + props.iconimage + '.png'
+        visible: "=props.iconimage ? true : false"
+    - component: oh-link
+      config:
+        action: popup
+        actionModal: ='page:' + props.page
+        style:
+          height: 110px
+          left: 0px
+          position: absolute
+          top: 0px
+          width: 100%
